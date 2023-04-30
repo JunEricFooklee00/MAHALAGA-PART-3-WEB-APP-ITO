@@ -1,0 +1,316 @@
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=chrome">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>EMS</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Sharp" rel="stylesheet">
+        <link rel="shortcut icon" href="/HTML/CSS/hehe.png">
+        <link rel="stylesheet" href="/HTML/CSS/JobOrder.css">
+    </head>
+
+    <body id="body-pd">
+        <header class="header" id="header">
+            <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"> JobOrder</i> </div>
+            <div class="header_img"> <img src="" alt=""> </div>
+        </header>
+        <div class="l-navbar" id="nav-bar">
+            <nav class="nav">
+                <div>
+                    <a href="#" class="nav_logo"> 
+                        <i><img src="../CSS/emslogo.gif" style="height:40px"></i> 
+                        <span class="nav_logo-name"style="font-size: 25px;" >EMS</span> 
+                    </a>
+                    <hr>
+                    <div class="nav_list"> 
+                        <a href="/ClientInterface" class="nav_link">
+                            <i class='bx bx-grid-alt nav_icon' style="font-size: 25px;"></i> 
+                            <span class="nav_name" style="font-size: 17px;">Dashboard</span> 
+                        </a> 
+                        <a href="/JobOrder" class="nav_link active"> 
+                            <i class='bx bx-briefcase' style="font-size: 25px;"></i>
+                            <span class="nav_name" style="font-size: 17px;">Job Order</span> 
+                        </a> 
+                        <a href="/Schedule" class="nav_link"> 
+                            <i class='bx bx-calendar' style="font-size: 25px;"></i> 
+                            <span class="nav_name" style="font-size: 17px;">Schedule</span> 
+                        </a> 
+                        <a href="#" class="nav_link"> 
+                            <i class='bx bx-cog' style="font-size: 25px;"></i>
+                            <span class="nav_name" style="font-size: 17px;">Settings</span> 
+                        </a> 
+                    </div>
+                </div> <a href="#" onclick="logoutSubmit()" class="nav_link"> <i class='bx bx-log-out nav_icon' style="font-size: 25px;"></i> <span class="nav_name" style="font-size: 17px;">Log Out</span> </a>
+            </nav>
+        </div>
+        <!--Container Main start-->
+        <main>
+            <div class="main-body">
+                <div class="plus-button">  
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalJO" style="background-color: transparent;">
+                        <span class="material-symbols-sharp" style="font-size: 30px; color: #7380ec;">add_circle</span>
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalJO" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Job Form</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form class="form" onsubmit="submitForm(event)">
+                                    <div class="form" id="form1">
+                                           <div class="modal-body">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Project Name</span>
+                                                <input type="text" id="projectName" name="projectName" oninput="checkProject()" placeholder="Ex: Shiroe's Bathroom" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                                <span class="error projectName-error"></span>
+                                            </span>
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text">Name</span>
+                                            <input type="text" id="fname" name="fname" aria-label="First name" oninput="checkFirstname()" class="form-control" placeholder="First Name">
+                                            <span class="error fname-error"></span>
+                                            <input type="text" id="lname" name="lname" aria-label="Last name" oninput="checkLastname()" class="form-control" placeholder="Last Name">
+                                            <span class="error lname-error"></span>
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text">Contact Number</span>
+                                            <input type="text" id="cNumber" name="cNumber" aria-label="Contact Number" oninput="checkContNum()" class="form-control" placeholder="Contact Number">
+                                            <span class="error fname-error"></span>
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <label class="input-group-text" for="inputGroupSelect01">Type of Work</label>
+                                            <select name="TypeOfWork" id="TypeOfWork" oninput="CheckTypeOfWork()" class="form-select" id="inputGroupSelect01">
+                                                <optgroup label="Site Preparation">
+                                                    <option selected disabled hidden>Choose Type of Work</option>
+                                                    <option id-data="Site Preparation" value="L - Filling and backfilling works">Filling and backfilling works</option>
+                                                    <option id-data="Site Preparation" value="L - Excavation of soil and/or Footing Excavation">Excavation of soil and/or Footing Excavation</option>
+                                                    <option id-data="Site Preparation" value="L - Gravel bedding">Gravel bedding</option>  
+                                                    <option id-data="Site Preparation" value="L - Chipping of slab">Chipping of slab</option>
+                                                    <option id-data="Site Preparation" value="L - Chipping of existing tiles">Chipping of existing tiles</option>
+                                                    <option id-data="Site Preparation" value="L - Chipping of existing slab for ducting">Chipping of existing slab for ducting</option>
+                                                    <option id-data="Site Preparation" value="L - Demolish existing ceiling and wood truss">Demolish existing ceiling and wood truss</option>
+                                                    <option id-data="Site Preparation" value="L - Demolish existing accordion door">Demolish existing accordion door</option>
+                                                    <option id-data="Site Preparation" value="L - Demolish front wall">Demolish front wall </option>
+                                                    <option id-data="Site Preparation" value="L - Demolish existing staircase/stairway">Demolish existing staircase/stairway</option>
+                                                    <option id-data="Site Preparation" value="L - Demolish existing grills">Demolish existing grills</option>
+                                                    <option id-data="Site Preparation" value="L - Demolish dilapidated roofing">Demolish dilapidated roofing</option>
+                                                    <option id-data="Site Preparation" value="L - Site Clearing/Hauling and Disposal works">Site Clearing/Hauling and Disposal works</option>
+                                                </optgroup>
+                                                <optgroup label="Carpentry Works">
+                                                    <option id-data="Carpentry Works" value="B2 - Carpentry Works for Main Counter">Carpentry works for Main Counter (repair only)</option>
+                                                    <option id-data="Carpentry Works" value="B - Carpentry works for Ceiling, Parapet, and Canopy">Carpentry works for Ceiling, Parapet, and Canopy</option>
+                                                    <option id-data="Carpentry Works" value="B - Carpentry Works - Construction of Dry Wall (Interior Wall and Partition)">Construction of Dry Wall (Interior Wall and Partition)</option>
+                                                    <option id-data="Carpentry Works" value="B - Carpentry Works - Construction of Exterior Wall using Rib type GI Sheet">Construction of Exterior Wall using Rib type GI Sheet</option>
+                                                    <option id-data="Carpentry Works" value="B - Carpentry Works - Wall Cabinet and Shelves at Sink Area Installation">Wall Cabinet and Shelves at Sink Area Installation</option>
+                                                </optgroup>
+                                                <optgroup label="Mechanical/Metal Works">
+                                                    <option id-data="Mechanical/Metal Works" value="C1 - Stainless works for Main Counter">Stainless works for Main Counter (Repair only)</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - Welding works for Steel frame of Main Counter">Welding works for Steel frame of Main Counter</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - Fabrication of Steel Gate">Fabrication of Steel Gate</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - Fabrication of Steel columns and members">Fabrication of Steel columns and members</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - 40cmx30cm steel louvers installation">40cmx30cm steel louvers installation</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - Installation of exhaust fans">Installation of exhaust fans</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - Fabrication and Installation of metal roll up door">Fabrication and Installation of metal roll up door</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - Menu Board Hooking and Installation">Menu Board Hooking and Installation</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - Steel ramp fabrication">Steel ramp fabrication</option>
+                                                    <option id-data="Mechanical/Metal Works" value="C - Mechanical/Metal Works - LPG Cage Fabrication">LPG Cage Fabrication</option>
+                                                </optgroup>
+                                                <optgroup label="Electrical Works">
+                                                    <option id-data="Electrical Works" value="F1 - Main Line and Wiring Distribution System">Main Line and Wiring Distribution System</option>
+                                                    <option id-data="Electrical Works" value="F2 - Interior and Exterior Lightings">Interior and Exterior Lightings</option>
+                                                </optgroup>
+                                                <optgroup label="Masonry Works">
+                                                    <option id-data="Masonry Works" value="E1 - Installation of 40x40cm unglazed tiles">Installation of 40x40cm unglazed tiles</option>
+                                                    <option id-data="Masonry Works" value="E2 - Concreting of slab flooring with foundation">Concreting of slab flooring with foundation</option>
+                                                </optgroup>
+                                                <optgroup label="Painting Works">
+                                                    <option id-data="Painting Works" value="G1 - Plain Concrete Surfaces (Surface Prep - Primer - Finish Coat)">Plain Concrete Surfaces (Surface Prep - Primer - Finish Coat)</option>
+                                                    <option id-data="Painting Works" value="G2 - Wooden_Metal Surfaces (Surface Prep - Primer - Finish Coat)">Wooden / Metal Surfaces (Surface Prep - Primer - Finish Coat)</option>
+                                                </optgroup>
+                                                <optgroup label="Plumbing Works">
+                                                    <option id-data="Plumbing Works" value="D1 - Removal, Demolition and Disposal of debris">Removal, Demolition and Disposal of debris</option>
+                                                    <option id-data="Plumbing Works" value="D2 - Pipeline and Fixture Installation">Pipeline and Fixture Installation</option>
+                                                    <option id-data="Plumbing Works" value="D3 - Drainage Pipeline Installation">Drainage Pipeline Installation</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Area</span>
+                                            <input type="number" id="Area" oninput="checkArea()" name="Area" placeholder="Area" class="form-control">
+                                            <span id="showUnit" class="input-group-text">Unit</span>
+                                            <input type="hidden" id="Unit" oninput="checkUnit()" name="Unit" class="Unit">
+                                        </div>
+                                        <div class="inputArea"></div> 
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Location</span>
+                                            <input type="text" id="Location" oninput="checkLocation()" name="Location" placeholder="House# Street, Barangay, City" size="60" class="form-control">
+                                        </div>
+                                        <div class="input-group mb-2">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Starting Date</span>
+                                            <input type="date" id="StartingDate" oninput="checkStartingDate()" name="StartingDate" placeholder="Days" class="form-control">
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Days Expected to Finish</span>
+                                            <input type="number" id="ExpectedFinishDate" oninput="checkExpectedFinishDate()" name="ExpectedFinishDate" placeholder="Days" class="form-control">
+                                            <span class="input-group-text">Day/s</span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button class="Submit" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="job-list-container">
+                    <div class="insights" id="jobs-container"></div>
+                </div>
+            </div>
+        </main>
+        <div class="right">
+            <div class="top">
+                <button id="menu btn">
+                    <span class="material-symbols-sharp">menu</span>
+                </button>
+            </div>
+            <div class="data-container hidden">
+                <h2>Entry Data</h2>
+                <div class="data-container1">
+                    <div class="data-container2">
+                        <div class="entry-data-container">
+                            <div class="message">
+                                <div class="info-table-container" id="info-table-container">
+                                    <table id="info-table" class="getDataHere">
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <hr>
+                                <button type="button" onclick="showRF()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalFR">
+                                    Forecast/Recommend
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalFR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="all-steps" id="all-steps"> 
+                                                    <span class="step"></span> 
+                                                    <span class="step"></span> 
+                                                    <span class="step"></span> 
+                                                    <span class="step" id="lastStep" style="block"></span> 
+                                                </div>
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin-left: 20px; transition: 0.5s;">Forecasting System</h1>
+                                                <button type="button" onclick="closeRF()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" id="modalFR-body" id-data="modalFR-body" style="">
+                                                <div class="row d-flex justify-content-center align-items-center">
+                                                    <div class="col-md-11">
+                                                        <form id="regForm">
+                                                            <div class="modalFR-container">
+                                                                <div class="tab">
+                                                                    <div class="fcontainer1" id="fcontainer1" style="display: none;">
+                                                                    </div>
+                                                                    <div class="fcontainer2" style="display: none;">
+                                                                    <p>Model is not yet finished and deployed to your 'Type of Work'. Therefore, manual input will be required.</p>
+                                                                    <h3>Note:</h3> 
+                                                                    <span>- The number of Manpower that will be entered should fit the work's Area.</span> <br>
+                                                                    <span>- Failed to do this will lead to rejection of your Job Order</span> <br>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tab">
+                                                                    <div class="fcontainer3" style="display: none;">
+                                                                        <div class="input-group mb-2" style="justify-content: center;">
+                                                                            <button type="button" id="predictButton">Forecast Number of Manpower</button>
+                                                                            <div id="predictionResult" predicted-value=""></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="fcontainer4" style="display: none;">
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text" id="inputGroup-sizing-default">Number of Manpower</span>
+                                                                            <input type="number" name="manualInputManpower" id="manualInputManpower" placeholder="Enter # of Manpower" oninput="chooseWorker()" value="" class="form-control">
+                                                                        </div>
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text" id="inputGroup-sizing-default">Designated Optimal Worker</span>
+                                                                            <input disabled type="text" name="optWorker1" id="optWorker1" value="" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tab">
+                                                                    <div class="fcontainer5" style="display: none;">
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text" id="inputGroup-sizing-default" data-change="changeDecision">Number of Forecasted Manpower</span>
+                                                                            <input disabled type="number" name="numManpower" id="suggestManpower" value="" class="form-control">
+                                                                            <button type="button" id="edit" style="display: block;" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                                                                <i class='bx bx-edit'></i>
+                                                                            </button>
+                                                                            <button type="button" id="check" style="display: none; position: relative;" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Confirm">
+                                                                                <i class='bx bx-check'></i>
+                                                                            </button>
+                                                                            <button type="button" id="cancel" style="display: none; positon: relative" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Cancel">
+                                                                                <i class='bx bx-x'></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="input-group mb-2">
+                                                                            <span class="input-group-text" id="inputGroup-sizing-default">Designated Optimal Worker</span>
+                                                                            <input disabled type="text" name="optWorker" id="optWorker" value="" class="form-control">
+                                                                        </div>
+                                                                        <div class="input-group mb-2" style="justify-content: center;">
+                                                                            <button type="button" onclick="sendData()">Recommend Workers</button>
+                                                                        </div>
+
+                                                                        <h2> Match Profiles:</h2>
+                                                                        <div class="containerSkilledWorkers" style="display: none;">
+                                                                        </div>
+                                                                        <div class="containerLaborWorkers" style="display: none;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="thanks-message text-center" id="text-message"> 
+                                                                    <img src="https://i.imgur.com/O18mJ1K.png" width="100" class="mb-4">
+                                                                    <h3>Your Job Order is Submitted</h3> 
+                                                                    <span>Your Order will be reviewed, please wait for our respond. Thank you.</span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div style="overflow:auto;" id="nextprevious">
+                                                    <div style="float:right;"> 
+                                                        <button type="button" onclick="closeRF()" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-secondary" id="prevBtn" onclick="nextPrev(-1)">Previous</button> 
+                                                        <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">Next</button> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+        <!--Container Main end-->
+        <script src="/JS/sidebar.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/JS/JobOrder.js"></script>
+        <script src="/JS/example.js"></script>
+        <script src="/JS/forecasting.js"></script> 
+        <script src="/JS/recommendation.js"></script>
+    </body>
+</html>
